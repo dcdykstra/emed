@@ -1,0 +1,11 @@
+src/config/config.ini
+client_secrets.json
+credentials.json
+settings.yaml
+TODO.md
+
+*.ipynb
+*.pyc
+
+.venv/
+data/
