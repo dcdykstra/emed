@@ -1,3 +1,4 @@
+import os
 import time
 import datetime as dt
 
@@ -5,9 +6,7 @@ import pandas as pd
 
 from selenium.common.exceptions import TimeoutException
 
-
 from src.config.configlog import config, logger
-
 
 from src.scraper.pages.login import LoginPage
 from src.scraper.pages.content import ContentPage
@@ -120,14 +119,17 @@ def scrape_all_reports(start_date, end_date, bill_start_date, bill_end_date, hea
     practice.select_crd()
     cpts = practice.scrape_cpts()
     cpts.to_csv("data//output//cpt_codes.csv", index=False)
-    time.sleep(10)
+    time.sleep(3)
 
     try:
         ## GET THE APPOINTMENTS REPORT
         content.nav_reports()
         reports.load_report("AppointmentReportv1")
         apts.show_all_schedulers()
+        time.sleep(2)
         apts.select_search_by("R")
+        apts.select_search_by("R")
+        # time.sleep(3)
         apts.select_date_range(start_date, end_date)
 
         apts.click_submit()
@@ -144,6 +146,7 @@ def scrape_all_reports(start_date, end_date, bill_start_date, bill_end_date, hea
         reports.load_report("BillingServicesReportV1")
         bill.select_dates(bill_start_date, bill_end_date)
         bill.run_report()
+        billing_scraped = bill.scrape_table()
         time.sleep(5)
         helper.extract_zips(downloads)
     except TimeoutException as e:
@@ -181,6 +184,10 @@ def scrape_all_reports(start_date, end_date, bill_start_date, bill_end_date, hea
 
     helper.rename_csv("AppointmentsReport.csv", "Appointment_Report", downloads)
     helper.rename_csv("BillingServicesReport.csv", "BillingServicesReport", downloads)
+    if not os.path.exists("data/downloads/BillingServicesReport.csv"):
+        billing_scraped.to_csv(
+            "data/downloads/Scraped_BillingServicesReport.csv", index=False
+        )
     helper.rename_csv("VisitReport.csv", "Visit_Report", downloads)
 
     logger.info("[ OKAY ] Completed Scrape Execution")

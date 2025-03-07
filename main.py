@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 import datetime as dt
 
 from src.scraper.scrape import scrape_yesterday, scrape_date, scrape_date_range
@@ -34,6 +35,7 @@ def scrape_date_list(datelist, headless):
     for i in datelist:
         date = scrape_date(i, headless=headless)
         apt_df = parse_appointments()
+        time.sleep(2)
         cpt_df = parse_cpts()
         vis_df = parse_visitors()
         bill_df = parse_billings(date)
@@ -48,14 +50,26 @@ def scrape_date_list(datelist, headless):
 
 
 if __name__ == "__main__":
-    lambda_handler(event=None, context=None, headless=False)
+    # lambda_handler(event=None, context=None, headless=False)
 
-    datelist = [
-        "2024-10-16",
-        "2024-10-17",
-        "2024-10-18",
-    ]
-    rangelist = pd.date_range("10-16-2024", "11-06-2024")
+    # datelist = [
+    #     "2024-10-27",
+    #     "2024-10-28",
+    #     "2024-10-29",
+    #     "2024-10-30",
+    #     "2024-10-31",
+    #     "2024-11-01",
+    #     "2024-11-01",
+    #     "2024-11-03",
+    #     "2024-11-04",
+    #     "2024-11-05",
+    #     "2024-11-06",
+    #     "2024-11-07",
+    #     "2024-11-08",
+    #     "2024-11-09",
+    #     "2024-11-10",
+    # ]
+    rangelist = pd.date_range("10-30-2024", "10-30-2024")
     rangelist = [i.strftime("%Y-%m-%d") for i in rangelist]
 
-    # scrape_date_list(datelist)
+    scrape_date_list(rangelist, headless=False)

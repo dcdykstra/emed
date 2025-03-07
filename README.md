@@ -47,4 +47,3 @@ You will need to install these in your computer before starting the setup
 | `sharepoint_pass` | Password login for DOH SharePoint                                                                                    | `string` |
 | `datefrom`        | Start date of historical eMed data                                                                                   | `date`   |
 | `cptgroup`        | Group to pull strings of CPT codes from eMed                                                                         |
-# emed

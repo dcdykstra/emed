@@ -1,6 +1,7 @@
 import pandas as pd
 import datetime as dt
 import numpy as np
+import os
 
 from src.transform.clean import (
     clean_appointments,
@@ -99,11 +100,17 @@ def parse_visitors():
 
 def parse_billings(date):
     """No try/catch, BillingServicesReport is required for data transformation"""
-    billings = pd.read_csv(
-        "data/downloads/BillingServicesReport.csv",
-        skiprows=7,
-        parse_dates=["Encounter Date"],
-    )
+    if os.path.exists("data/downloads/BillingServicesReport.csv"):
+        billings = pd.read_csv(
+            "data/downloads/BillingServicesReport.csv",
+            skiprows=7,
+            parse_dates=["Encounter Date"],
+        )
+    else:
+        billings = pd.read_csv(
+            "data/downloads/Scraped_BillingServicesReport.csv",
+            parse_dates=["Encounter Date"],
+        )
     cpt_codes = pd.read_csv("data/output/cpt_codes.csv")
     billings = clean_billings(billings, cpt_codes, date)
 

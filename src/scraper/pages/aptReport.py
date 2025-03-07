@@ -26,12 +26,16 @@ class AppointmentsReport(BasePage):
         """
         selected_button = Select(
             self.wait.until(
-                EC.element_to_be_clickable(
+                EC.presence_of_element_located(
                     (By.ID, "_ctl0_ContentPlaceHolder1_ddltypes")
                 )
             )
         )
         selected_button.select_by_value(dropdown_value)
+
+        self.wait.until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
 
     def select_date_range(self, start_date, end_date):
         date_from = self.wait.until(
@@ -50,6 +54,10 @@ class AppointmentsReport(BasePage):
         date_to.send_keys(Keys.HOME)
         date_to.send_keys(end_date)
 
+        self.wait.until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
     def show_all_schedulers(self):
         """Checks the Show all scheduler button"""
         show_all = self.wait.until(
@@ -61,6 +69,10 @@ class AppointmentsReport(BasePage):
             )
         )
         show_all.click()
+
+        self.wait.until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
 
     def click_submit(self):
         """Clicks the submit button"""
@@ -74,6 +86,10 @@ class AppointmentsReport(BasePage):
         )
         submit.click()
 
+        self.wait.until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
     def download_csv(self):
         """Downloads the CSV file"""
         download = self.wait.until(
@@ -82,3 +98,7 @@ class AppointmentsReport(BasePage):
             )
         )
         download.click()
+
+        self.wait.until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
