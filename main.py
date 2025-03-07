@@ -24,7 +24,6 @@ def lambda_handler(event, context, headless):
     print("[ OK ] Scrape Complete")
 
     final = merge_daily_report(apt_df, cpt_df, vis_df, bill_df)
-    # final.to_excel(f"data/output/detainee_list_{date}.xlsx", index=False)
     final.to_csv(f"data/output/detainee_list_{date}.csv", index=False)
 
     upload_files([f"data/output/detainee_list_{date}.csv"])
@@ -52,23 +51,6 @@ def scrape_date_list(datelist, headless):
 if __name__ == "__main__":
     # lambda_handler(event=None, context=None, headless=False)
 
-    # datelist = [
-    #     "2024-10-27",
-    #     "2024-10-28",
-    #     "2024-10-29",
-    #     "2024-10-30",
-    #     "2024-10-31",
-    #     "2024-11-01",
-    #     "2024-11-01",
-    #     "2024-11-03",
-    #     "2024-11-04",
-    #     "2024-11-05",
-    #     "2024-11-06",
-    #     "2024-11-07",
-    #     "2024-11-08",
-    #     "2024-11-09",
-    #     "2024-11-10",
-    # ]
     rangelist = pd.date_range("10-30-2024", "10-30-2024")
     rangelist = [i.strftime("%Y-%m-%d") for i in rangelist]
 
